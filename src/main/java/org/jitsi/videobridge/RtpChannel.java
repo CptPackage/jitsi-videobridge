@@ -912,12 +912,17 @@ public class RtpChannel
             stream.addPropertyChangeListener(streamPropertyChangeListener);
             stream.setName(getID());
             stream.setProperty(RtpChannel.class.getName(), this);
+            stream.setProperty(
+                    MediaStreamImpl.PROP_LOGGING_ID, getLoggingId());
             if (transformEngine != null)
             {
                 stream.setExternalTransformer(transformEngine);
             }
             if (transportCCEngine != null)
             {
+                transportCCEngine.setLoggingId(getLoggingId()
+                        + ",tcc_engine=" + transportCCEngine.hashCode());
+
                 stream.setTransportCCEngine(transportCCEngine);
             }
 
@@ -1144,6 +1149,15 @@ public class RtpChannel
         {
             newValue.addChannel(this);
             newValue.addPropertyChangeListener(this);
+        }
+
+        TransportManager transportManager = getTransportManager();
+        TransportCCEngine transportCCEngine
+                = transportManager.getTransportCCEngine();
+        if (transportCCEngine != null)
+        {
+            transportCCEngine.setLoggingId(getLoggingId()
+                    + ",tcc_engine=" + transportCCEngine.hashCode());
         }
     }
 

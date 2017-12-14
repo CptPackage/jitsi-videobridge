@@ -251,7 +251,8 @@ public class Conference
         this.videobridge = Objects.requireNonNull(videobridge, "videobridge");
         this.id = Objects.requireNonNull(id, "id");
         this.gid = gid;
-        this.loggingId = "conf_id=" + id;
+        this.loggingId = "conf_id=" + id
+            + ",conf_name=" + name + ",conf_time=" + System.currentTimeMillis();
         this.focus = focus;
         this.eventAdmin = enableLogging ? videobridge.getEventAdmin() : null;
         this.includeInStatistics = enableLogging;
